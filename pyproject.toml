@@ -1,6 +1,6 @@
 [project]
 name = "comfyui-s3-connector"
-version = "1.0.0"
+version = "1.1.0"
 description = "ComfyUI custom nodes for uploading and loading images from S3 buckets"
 license = "MIT"
 requires-python = ">=3.8"
