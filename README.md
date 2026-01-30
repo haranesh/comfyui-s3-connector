@@ -43,10 +43,12 @@ Copy `.env.example` to `.env` and configure the following:
 
 Uploads images from your ComfyUI workflow to an S3 bucket.
 
+![S3 Upload Image](screenshots/s3_upload_image.png)
+
 **Inputs:**
 - `images` (IMAGE): Image tensor from ComfyUI workflow
-- `filename_prefix` (STRING): Prefix for the uploaded filename
-- `custom_path` (STRING, optional): Custom path within the bucket
+- `folder_path` (STRING): S3 folder path to upload to
+- `file_name` (STRING): File name to save as
 
 **Outputs:**
 - `s3_url` (STRING): Full URL to the uploaded image
@@ -56,8 +58,11 @@ Uploads images from your ComfyUI workflow to an S3 bucket.
 
 Loads images from an S3 bucket into your ComfyUI workflow.
 
+![S3 Load Image](screenshots/s3_load_image.png)
+
 **Inputs:**
-- `s3_key` (STRING): The S3 key/path of the image to load
+- `folder_path` (STRING): S3 folder path (e.g., `uploaded/`)
+- `file_name` (STRING): File name to load (e.g., `image.png`)
 
 **Outputs:**
 - `image` (IMAGE): Image tensor for use in ComfyUI workflow
