@@ -1,0 +1,19 @@
+[project]
+name = "comfyui-s3-connector"
+version = "1.0.0"
+description = "ComfyUI custom nodes for uploading and loading images from S3 buckets"
+license = "MIT"
+requires-python = ">=3.8"
+dependencies = [
+    "boto3>=1.28.0",
+    "python-dotenv>=1.0.0",
+    "Pillow>=9.0.0",
+]
+
+[project.urls]
+Repository = "https://github.com/haranesh/comfyui-s3-connector"
+
+[tool.comfy]
+PublisherId = "haranesh"
+DisplayName = "S3 Connector"
+Icon = "https://raw.githubusercontent.com/haranesh/comfyui-s3-connector/main/icon.png"
