@@ -21,3 +21,6 @@ build/
 # OS
 .DS_Store
 Thumbs.db
+.claude/settings.local.json
+node.zip
+node.zip

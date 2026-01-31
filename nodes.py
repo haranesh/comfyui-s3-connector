@@ -314,6 +314,52 @@ class S3UploadImageFullPath:
         return ("", "")
 
 
+class GetJobID:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {},
+            "hidden": {
+                "prompt": "PROMPT",
+                "extra_pnginfo": "EXTRA_PNGINFO",
+            }
+        }
+
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("job_id",)
+    FUNCTION = "fetch_id"
+    CATEGORY = "S3 Connector"
+
+    def fetch_id(self, prompt=None, extra_pnginfo=None):
+        job_id = "Unknown"
+
+        # 1. Try to get it from the prompt dictionary (The most direct way)
+        if prompt is not None:
+            # When running from API or UI, Comfy often adds this to extra_data
+            job_id = prompt.get("extra_data", {}).get("batch_id", "")
+        
+        # 2. Try to get it from extra_pnginfo (Metadata-based)
+        if not job_id and extra_pnginfo is not None:
+            job_id = extra_pnginfo.get("prompt_id", "")
+
+        # 3. Final Fallback: Ask the server instance directly for the current job
+        if not job_id or job_id == "Unknown":
+            import server
+            prompt_server = server.PromptServer.instance
+            # The server tracks the current execution ID here
+            job_id = getattr(prompt_server, "last_prompt_id", "No ID Found")
+
+        return (str(job_id),)
+
+    # This ensures the node re-runs every time you press "Queue Prompt"
+    # Essential for Blackwell/5090 speed so it doesn't cache an old ID
+    @classmethod
+    def IS_CHANGED(s, **kwargs):
+        return float("NaN")
+
+NODE_CLASS_MAPPINGS = {"GetJobID": GetJobID}
+NODE_DISPLAY_NAME_MAPPINGS = {"GetJobID": "Get Current Job ID (Final)"}
+
 class S3LoadImageFullPath:
     """ComfyUI node to load images from S3 bucket using full path"""
 
@@ -399,6 +445,7 @@ NODE_CLASS_MAPPINGS = {
     "S3LoadImage": S3LoadImage,
     "S3UploadImageFullPath": S3UploadImageFullPath,
     "S3LoadImageFullPath": S3LoadImageFullPath,
+    "GetJobID": GetJobID,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -406,4 +453,5 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "S3LoadImage": "S3 Load Image",
     "S3UploadImageFullPath": "S3 Upload Image (Full Path)",
     "S3LoadImageFullPath": "S3 Load Image (Full Path)",
+    "GetJobID": "Get Job ID",
 }
