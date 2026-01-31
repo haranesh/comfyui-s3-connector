@@ -68,6 +68,43 @@ Loads images from an S3 bucket into your ComfyUI workflow.
 - `image` (IMAGE): Image tensor for use in ComfyUI workflow
 - `mask` (MASK): Alpha mask (if image has transparency)
 
+### S3 Upload Image (Full Path)
+
+Uploads images using a single full path string instead of separate folder and filename.
+
+**Inputs:**
+- `images` (IMAGE): Image tensor from ComfyUI workflow
+- `full_path` (STRING): Complete S3 path including filename (e.g., `folder/subfolder/image.png`)
+
+**Outputs:**
+- `s3_url` (STRING): Full URL to the uploaded image
+- `path` (STRING): S3 key/path of the uploaded image
+
+### S3 Load Image (Full Path)
+
+Loads images using a single full path string.
+
+**Inputs:**
+- `full_path` (STRING): Complete S3 path including filename
+
+**Outputs:**
+- `image` (IMAGE): Image tensor for use in ComfyUI workflow
+- `mask` (MASK): Alpha mask (if image has transparency)
+
+### Get Job ID
+
+Returns the unique job/prompt ID for the currently running ComfyUI workflow. Useful for tracking outputs, organizing files by job, or logging.
+
+**Inputs:**
+- None (uses hidden ComfyUI context)
+
+**Outputs:**
+- `job_id` (STRING): The unique identifier for the current job/prompt execution
+
+**Notes:**
+- The node automatically refreshes on each queue to ensure you get the current job ID
+- Can be connected to filename inputs to organize S3 uploads by job
+
 ## Usage Examples
 
 ### Upload workflow output to S3
