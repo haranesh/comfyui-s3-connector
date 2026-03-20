@@ -57,8 +57,8 @@ class S3UploadImage:
             },
         }
 
-    RETURN_TYPES = ("STRING", "STRING",)
-    RETURN_NAMES = ("s3_url", "path",)
+    RETURN_TYPES = ("STRING", "STRING", "IMAGE",)
+    RETURN_NAMES = ("s3_url", "path", "image",)
     FUNCTION = "upload_image"
     CATEGORY = "S3 Connector"
     OUTPUT_NODE = True
@@ -135,8 +135,8 @@ class S3UploadImage:
 
         # Return the last uploaded file's info
         if results:
-            return results[-1]
-        return ("", "")
+            return (results[-1][0], results[-1][1], images)
+        return ("", "", images)
 
 
 class S3LoadImage:
@@ -236,8 +236,8 @@ class S3UploadImageFullPath:
             },
         }
 
-    RETURN_TYPES = ("STRING", "STRING",)
-    RETURN_NAMES = ("s3_url", "path",)
+    RETURN_TYPES = ("STRING", "STRING", "IMAGE",)
+    RETURN_NAMES = ("s3_url", "path", "image",)
     FUNCTION = "upload_image"
     CATEGORY = "S3 Connector"
     OUTPUT_NODE = True
@@ -310,8 +310,8 @@ class S3UploadImageFullPath:
 
         # Return the last uploaded file's info
         if results:
-            return results[-1]
-        return ("", "")
+            return (results[-1][0], results[-1][1], images)
+        return ("", "", images)
 
 
 class GetJobID:
